@@ -33,7 +33,6 @@
     # dev
     pkgs.lunarvim
     pkgs.go
-    pkgs.git-credential-oauth
     pkgs.lazygit
 
     # window manager
@@ -103,10 +102,22 @@
     enable = true;
     userName = "thejasn";
     userEmail = "thejasn.416@gmail.com";
+
     extraConfig = {
-      credential.helper = "oauth";
+      # replace https with ssh
+      url = {
+        "ssh://git@github.com/thejasn" = {
+          insteadOf = "https://github.com/thejasn";
+        };
+        # "ssh://git@gitlab.com/" = {
+        #   insteadOf = "https://gitlab.com/";
+        # };
+        # "ssh://git@bitbucket.com/" = {
+        #   insteadOf = "https://bitbucket.com/";
+        # };
+      };
     };
- };
+  };
 
  programs.zsh = {
   enable = true;
