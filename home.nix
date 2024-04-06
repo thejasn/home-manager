@@ -35,6 +35,7 @@
     pkgs.i3status-rust
     pkgs.font-awesome
     pkgs.pcmanfm
+    pkgs.git-credential-oauth
     
 
 
@@ -89,12 +90,10 @@
 
   programs.git = {
     enable = true;
-    extraConfig = {
-      credential.helper = "${
-          pkgs.git.override { withLibsecret = true; }
-        }/bin/git-credential-libsecret";
-    }; 
     userName = "thejasn";
     userEmail = "thejasn.416@gmail.com";
-  };
+    extraConfig = {
+      credential.helper = "oauth";
+    };
+ };
 }
