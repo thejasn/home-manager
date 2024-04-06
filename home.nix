@@ -23,13 +23,26 @@
     # pkgs.hello
     pkgs.vim
     pkgs.git
+    pkgs.curl
+    pkgs.wget
+    pkgs.htop
+    pkgs.tmux
+
+    pkgs.brightnessctl
+    pkgs.networkmanager_dmenu
+    # pkgs.blueberry
+    pkgs.xfce.xfce4-clipman-plugin
+    pkgs.i3status-rust
+    pkgs.font-awesome
+    pkgs.pcmanfm
+    
 
 
     # # It is sometimes useful to fine-tune packages, for example, by applying
     # # overrides. You can do that directly here, just don't forget the
     # # parentheses. Maybe you want to install Nerd Fonts with a limited number of
     # # fonts?
-    # (pkgs.nerdfonts.override { fonts = [ "FantasqueSansMono" ]; })
+    (pkgs.nerdfonts.override { fonts = [ "FantasqueSansMono" "FiraCode" ]; })
 
     # # You can also create simple shell scripts directly inside your
     # # configuration. For example, this adds a command 'my-hello' to your
@@ -47,7 +60,8 @@
     # # symlink to the Nix store copy.
     # ".screenrc".source = dotfiles/screenrc;
     ".config/i3/config".source = dotfiles/i3/i3config;
-    # .config/i3/i3blocks.conf = dotfiles/i3/i3blocks.conf;
+    ".config/i3/scripts".source = dotfiles/i3/scripts;
+    ".config/i3/i3status-rust.toml".source = dotfiles/i3/i3status-rust.toml;
 
     # # You can also set the file content immediately.
     # ".gradle/gradle.properties".text = ''
