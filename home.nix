@@ -60,7 +60,6 @@
     # # symlink to the Nix store copy.
     # ".screenrc".source = dotfiles/screenrc;
     ".config/i3/config".source = dotfiles/i3/i3config;
-    ".config/i3/scripts".source = dotfiles/i3/scripts;
     ".config/i3/i3status-rust.toml".source = dotfiles/i3/i3status-rust.toml;
 
     # # You can also set the file content immediately.
