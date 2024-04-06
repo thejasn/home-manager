@@ -24,6 +24,7 @@
     pkgs.vim
     pkgs.git
 
+
     # # It is sometimes useful to fine-tune packages, for example, by applying
     # # overrides. You can do that directly here, just don't forget the
     # # parentheses. Maybe you want to install Nerd Fonts with a limited number of
@@ -45,6 +46,8 @@
     # # the Nix store. Activating the configuration will then make '~/.screenrc' a
     # # symlink to the Nix store copy.
     # ".screenrc".source = dotfiles/screenrc;
+    ".config/i3/config".source = dotfiles/i3/i3config;
+    # .config/i3/i3blocks.conf = dotfiles/i3/i3blocks.conf;
 
     # # You can also set the file content immediately.
     # ".gradle/gradle.properties".text = ''
