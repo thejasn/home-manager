@@ -27,15 +27,22 @@
     pkgs.wget
     pkgs.htop
     pkgs.tmux
+    pkgs.zsh
+    pkgs.neovim
+ 
+    # dev
+    pkgs.lunarvim
+    pkgs.go
+    pkgs.git-credential-oauth
+    pkgs.lazygit
 
+    # window manager
     pkgs.brightnessctl
     pkgs.networkmanager_dmenu
-    # pkgs.blueberry
     pkgs.xfce.xfce4-clipman-plugin
     pkgs.i3status-rust
     pkgs.font-awesome
     pkgs.pcmanfm
-    pkgs.git-credential-oauth
     
 
 
@@ -62,6 +69,8 @@
     # ".screenrc".source = dotfiles/screenrc;
     ".config/i3/config".source = dotfiles/i3/i3config;
     ".config/i3/i3status-rust.toml".source = dotfiles/i3/i3status-rust.toml;
+    ".config/tmux/tmux.conf".source = dotfiles/tmux/tmux.conf;
+    ".config/lvim".source = dotfiles/lvim;
 
     # # You can also set the file content immediately.
     # ".gradle/gradle.properties".text = ''
@@ -85,6 +94,8 @@
     EDITOR = "vim";
   };
 
+  targets.genericLinux.enable = true;
+
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
 
@@ -96,4 +107,19 @@
       credential.helper = "oauth";
     };
  };
+
+ programs.zsh = {
+  enable = true;
+  enableCompletion = true;
+  syntaxHighlighting = {
+    enable = true;
+  };
+  history.size = 10000;
+  oh-my-zsh = {
+    enable = true;
+    plugins = [ "git" ];
+    theme = "robbyrussell";
+  };
+ };
+ 
 }
