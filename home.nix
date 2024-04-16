@@ -1,5 +1,6 @@
 { config, pkgs, ... }:
 
+let mountdir = "${config.home.homeDirectory}/Drive/work"; in
 {
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
@@ -18,9 +19,8 @@
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = [
-    # # Adds the 'hello' command to your environment. It prints a friendly
-    # # "Hello, world!" when run.
-    # pkgs.hello
+ 
+    # essentials
     pkgs.vim
     pkgs.git
     pkgs.curl
@@ -28,12 +28,29 @@
     pkgs.htop
     pkgs.tmux
     pkgs.zsh
-    pkgs.neovim
+    pkgs.iproute2
+    pkgs.flameshot
+    pkgs.gnumake
+
+    # comms
+    # pkgs.discord
+    pkgs.brave
+
+    # cloud
+    pkgs.kubectl
+    pkgs.awscli2
+    pkgs.kubernetes-helm
+    pkgs.podman
  
     # dev
+    pkgs.wezterm
     pkgs.lunarvim
     pkgs.go
     pkgs.lazygit
+    pkgs.neovim
+    pkgs.ripgrep
+    pkgs.fd
+    pkgs.meld
 
     # window manager
     pkgs.brightnessctl
@@ -42,8 +59,10 @@
     pkgs.i3status-rust
     pkgs.font-awesome
     pkgs.pcmanfm
-    
 
+    # work
+    pkgs.rclone
+    pkgs.fuse3
 
     # # It is sometimes useful to fine-tune packages, for example, by applying
     # # overrides. You can do that directly here, just don't forget the
@@ -70,6 +89,7 @@
     ".config/i3/i3status-rust.toml".source = dotfiles/i3/i3status-rust.toml;
     ".config/tmux/tmux.conf".source = dotfiles/tmux/tmux.conf;
     ".config/lvim".source = dotfiles/lvim;
+    ".config/alacritty".source = dotfiles/alacritty;
 
     # # You can also set the file content immediately.
     # ".gradle/gradle.properties".text = ''
@@ -77,6 +97,33 @@
     #   org.gradle.daemon.idletimeout=3600000
     # '';
   };
+
+
+  # systemd.user = {
+  #   services.onedrive_mount = {
+  #     Unit = {
+  #         Description = "mount googledrive dirs";
+  #     };
+  #     Install.WantedBy = [ "multi-user.target" ];
+  #     Service = {
+  #         ExecStartPre = "/usr/bin/mkdir -p ${mountdir}";
+  #         ExecStart = ''
+  #             ${pkgs.rclone}/bin/rclone mount work.googledrive: ${mountdir} \
+  #                 --dir-cache-time 48h \
+  #                 --vfs-cache-max-age 48h \
+  #                 --vfs-read-chunk-size 10M \
+  #                 --vfs-read-chunk-size-limit 512M \
+  #                 --buffer-size 512M
+  #         '';
+  #         ExecStop = "${pkgs.fuse}/bin/fusermount -u ${mountdir}";
+  #         Type = "notify";
+  #         Restart = "always";
+  #         RestartSec = "10s";
+  #         Environment = [ "PATH=${pkgs.fuse}/bin:$PATH" ];
+  #     };
+  #   };
+  # };
+
 
   # Home Manager can also manage your environment variables through
   # 'home.sessionVariables'. If you don't want to manage your shell through Home
@@ -90,8 +137,10 @@
   #  /etc/profiles/per-user/thn/etc/profile.d/hm-session-vars.sh
   #
   home.sessionVariables = {
-    EDITOR = "vim";
+    EDITOR = "lvim";
   };
+
+  home.sessionPath = [ "$HOME/go/bin" "/usr/sbin" ]; 
 
   targets.genericLinux.enable = true;
 
@@ -109,12 +158,19 @@
         "ssh://git@github.com/thejasn" = {
           insteadOf = "https://github.com/thejasn";
         };
-        # "ssh://git@gitlab.com/" = {
-        #   insteadOf = "https://gitlab.com/";
-        # };
-        # "ssh://git@bitbucket.com/" = {
-        #   insteadOf = "https://bitbucket.com/";
-        # };
+        "ssh://git@github.com/bychoice-tech" = {
+          insteadOf = "https://github.com/bychoice-tech";
+        };
+      };
+
+      merge = {
+        conflictstyle = "diff3";
+        tool = "meld";
+      };
+
+      mergetool.meld = {
+        cmd = "meld \"$LOCAL\" \"$MERGED\" \"$REMOTE\" --output \"MERGED\"";
+        # cmd = "meld \"$LOCAL\" \"$MERGED\" \"$REMOTE\" --output \"MERGED\"";
       };
     };
   };
@@ -132,5 +188,10 @@
     theme = "robbyrussell";
   };
  };
+
+  programs.go = {
+    goPath = "go";
+    goBin = "go/bin";
+  };
  
 }
